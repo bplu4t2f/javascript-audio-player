@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>Winter's End</title>
+<style>
+html {
+background: url('winters_end.jpg') no-repeat 17.5% center fixed;
+background-size: cover;
+min-height: 100%;
+}
+
+body {
+font: 11pt Arial, sans-serif;
+color: #000000;
+margin-right: 50px;
+}
+
+body > * {
+margin-left: auto;
+}
+
+
+/* track list */
+
+
+li {
+display: flex; /* allows the inner a to span the entire width */
+margin: 0;
+padding: 0;
+}
+
+.play_link {
+flex: 1;
+padding: 4px;
+color: #000000;
+text-decoration: none;
+}
+
+/* this is added to the .play_link that is currently playing */
+.currently_playing {
+background-color: rgba(255, 255, 255, 0.9);
+box-shadow: 0 0 1.5px 1px #000000;
+}
+
+
+/* slider */
+
+
+.slider_container {
+cursor: pointer;
+background-color: rgba(255, 255, 255, 0.5);
+box-shadow: 0 0 1.5px 1px #000000;
+margin: 3px;
+height: 20px;
+overflow: hidden;
+}
+
+.slider_thumb {
+background-color: rgba(0, 0, 0, 0.7);
+border-bottom: 2px solid #979797;
+border-right: 2px solid #979797;
+border-top: 2px solid #E3E3E3;
+border-left: 2px solid #E3E3E3;
+width: 16px;
+}
+
+.slider_text {
+margin: 3px;
+}
+
+
+/* player controls */
+
+
+.player_controls, #list {
+width: 450px;
+box-shadow: 0 0 1.5px 1px #000000;
+padding: 3px;
+margin-bottom: 15px;
+background-color: rgba(255, 255, 255, 0.8);
+}
+
+.pause_resume_title_container {
+height: 45px;
+display: flex;
+}
+
+.pause_resume_title_container > button {
+cursor: pointer;
+border-bottom: 2px solid #979797;
+border-right: 2px solid #979797;
+border-top: 2px solid #E3E3E3;
+border-left: 2px solid #E3E3E3;
+font-size: inherit;
+display: flex;
+align-items: center;
+margin: 3px;
+padding: 3px;
+background-color: rgba(255, 255, 255, 0.7);
+box-shadow: 0 0 1.5px 1px #000000;
+}
+
+.current_track_container {
+display: flex; /* centers the text vertically inside the div */
+align-items: center;
+margin: 3px;
+}
+
+#playback_error {
+margin: 3px;
+color: #b22222;
+display: none;
+}
+
+#playback_error.playback_error_present {
+display: block;
+}
+
+/* place both sliders next to each other */
+.sliders {
+display: flex;
+}
+
+.sliders > div {
+flex: 1;
+}
+
+</style>
+
+<script src="player.js"></script>
+<script>
+"use strict";
+
+document.addEventListener("DOMContentLoaded", init);
+
+function init()
+{
+	player_init(
+		document.getElementById("list"),
+		document.getElementById("seeker_container"),
+		document.getElementById("volume_container"),
+		document.getElementById("pause_button"),
+		document.getElementById("resume_button"),
+		document.getElementById("the_audio"),
+		document.getElementById("current_track_name"),
+		document.getElementById("current_time"),
+		document.getElementById("duration"),
+		document.getElementById("volume_text"),
+		document.getElementById("persist_volume"),
+		document.getElementById("playback_error")
+		);
+}
+</script>
+</head>
+
+<body>
+
+<div class="player_controls">
+
+<div class="pause_resume_title_container">
+<button id="pause_button">Pause</button>
+<button id="resume_button">Resume</button>
+<div class="current_track_container"><span id="current_track_name"></span></div>
+</div>
+
+<div class="sliders">
+
+	<div>
+		<div id="seeker_container" class="slider_container"></div>
+		<div class="slider_text"><span id="current_time"></span> / <span id="duration"></span></div>
+	</div>
+
+	<div>
+		<div id="volume_container" class="slider_container"></div>
+		<div class="slider_text">Volume: <span id="volume_text"></span></div>
+	</div>
+
+</div>
+
+<span id="playback_error"></span>
+
+<audio id="the_audio"></audio>
+<input type="hidden" id="persist_volume"/>
+</div>
+
+<ul id="list">
+	<li><a class='play_link'>01. Voices of Winter.mp3</a></li>
+	<li><a class='play_link'>02. Eternal Winter.mp3</a></li>
+	<li><a class='play_link'>03. Rounds of the Fates.mp3</a></li>
+	<li><a class='play_link'>04. Redemption and Forgiveness.mp3</a></li>
+	<li><a class='play_link'>05. Little Dancing Light.mp3</a></li>
+	<li><a class='play_link'>06. Of Noble Blood.mp3</a></li>
+	<li><a class='play_link'>07. Dark Anomaly.mp3</a></li>
+	<li><a class='play_link'>08. Frozen Grief.mp3</a></li>
+	<li><a class='play_link'>09. Town by the Sea.mp3</a></li>
+	<li><a class='play_link'>10. Song in the Wind.mp3</a></li>
+	<li><a class='play_link'>11. Old Hearth.mp3</a></li>
+	<li><a class='play_link'>12. Sorrowful Winds.mp3</a></li>
+	<li><a class='play_link'>13. Safe Haven.mp3</a></li>
+	<li><a class='play_link'>14. The Warmth of Hope.mp3</a></li>
+	<li><a class='play_link'>15. What Meets the Eye.mp3</a></li>
+	<li><a class='play_link'>16. The Power of Time.mp3</a></li>
+	<li><a class='play_link'>17. Frozen Highlands.mp3</a></li>
+	<li><a class='play_link'>18. The Forrest of Light.mp3</a></li>
+	<li><a class='play_link'>19. Hidden Motives.mp3</a></li>
+	<li><a class='play_link'>20. The Last Stretch.mp3</a></li>
+	<li><a class='play_link'>21. Once Upon a Time.mp3</a></li>
+	<li><a class='play_link'>22. The Ancient Bloodline.mp3</a></li>
+	<li><a class='play_link'>23. Whisper to the Heart.mp3</a></li>
+	<li><a class='play_link'>24. Like a Boss!.mp3</a></li>
+	<li><a class='play_link'>25. Stories of Old.mp3</a></li>
+	<li><a class='play_link'>26. Beyond the Snow (ft. Kotringo).mp3</a></li>
+	<li><a class='play_link'>27. An End to the Journey.mp3</a></li>
+
+</ul>
+
+</body>
+</html>

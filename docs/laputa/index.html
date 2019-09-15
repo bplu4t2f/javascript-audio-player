@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>Laputa - Castle in the Sky (US version)</title>
+<style>
+html {
+background: url('myungseop-lee-laputa.jpg') no-repeat center center fixed;
+background-size: cover;
+min-height: 100%;
+}
+
+body {
+font: 11pt Arial, sans-serif;
+color: #ffffff;
+margin-left: 50px;
+}
+
+
+/* track list */
+
+
+li {
+display: flex; /* allows the inner a to span the entire width */
+margin: 0;
+padding: 0;
+}
+
+.play_link {
+flex: 1;
+padding: 4px 3px;
+color: #ffffff;
+text-decoration: none;
+}
+
+/* this is added to the .play_link that is currently playing */
+.currently_playing {
+background-color: rgba(0, 0, 0, 0.7);
+}
+
+
+/* slider */
+
+
+.slider_container {
+cursor: pointer;
+box-shadow: 0 0 1.5px 1px #000000 inset;
+background-color: rgba(0, 0, 0, 0.2);
+margin: 3px;
+height: 20px;
+}
+
+.slider_thumb {
+background-color: #000000;
+width: 20px;
+}
+
+.slider_text {
+margin: 3px;
+}
+
+
+/* player controls */
+
+
+.player_controls, #list {
+width: 450px;
+box-shadow: 0 0 1.5px 1px #000000 inset;
+padding: 3px;
+margin-bottom: 15px;
+background-color: rgba(0, 0, 0, 0.4);
+}
+
+.pause_resume_title_container {
+height: 45px;
+display: flex;
+}
+
+.pause_resume_title_container > button {
+cursor: pointer;
+font: inherit;
+box-shadow: 0 0 1.5px 1px #000000 inset;
+border: none;
+color: #ffffff;
+margin: 3px;
+padding: 3px;
+background-color: rgba(0, 0, 0, 0.7);
+}
+
+#current_track_name {
+display: flex; /* centers the text vertically inside the div */
+align-items: center;
+margin: 3px;
+}
+
+#playback_error {
+margin: 3px;
+padding: 3px;
+background-color: rgba(0, 0, 0, 0.7);
+box-shadow: 0 0 1.5px 1px #b22222 inset;
+display: none;
+}
+
+#playback_error.playback_error_present {
+display: block;
+}
+
+/* place both sliders next to each other */
+.sliders {
+display: flex;
+}
+
+.sliders > div {
+flex: 1;
+}
+
+</style>
+
+<script src="player.js"></script>
+<script>
+"use strict";
+
+document.addEventListener("DOMContentLoaded", init);
+
+function init()
+{
+	let tracks = [
+		"01 Prologue ~Flaptors Attack.mp3",
+		"02 The Girl Who Fell from the Sky (Main Theme).mp3",
+		"03 The Levitation Crystal.mp3",
+		"04 Morning in the Mining Village.mp3",
+		"05 Pazu's Fanfare.mp3",
+		"06 The Legend of Laputa.mp3",
+		"07 A Street Brawl.mp3",
+		"08 The Chase.mp3",
+		"09 Floating with the Crystal.mp3",
+		"10 Memories of Gondoa.mp3",
+		"11 Stones Glowing in the Darkness.mp3",
+		"12 Disheartend Pazu.mp3",
+		"13 Robot Soldiers ~Resurrection - Rescue~.mp3",
+		"14 Dola and the Pirates.mp3",
+		"15 Confessions in the Moonlight.mp3",
+		"16 The Dragon's Nest.mp3",
+		"17 The Lost Paradise.mp3",
+		"18 The Forgotten Robot Soldier.mp3",
+		"19 The Invasion of Goliath.mp3",
+		"20 Pazu Fights Back.mp3",
+		"21 The Final Showdown.mp3",
+		"22 The Destruction of Laputa (Choral Version).mp3",
+		"23 The Eternal Tree of Life.mp3",
+	];
+	
+	let list = document.getElementById("list");
+	
+	player_fill_list(list, tracks);
+
+	player_init(
+		list,
+		document.getElementById("seeker_container"),
+		document.getElementById("volume_container"),
+		document.getElementById("pause_button"),
+		document.getElementById("resume_button"),
+		document.getElementById("the_audio"),
+		document.getElementById("current_track_name"),
+		document.getElementById("current_time"),
+		document.getElementById("duration"),
+		document.getElementById("volume_text"),
+		document.getElementById("persist_volume"),
+		document.getElementById("playback_error"),
+		document.getElementById("playback_error_container")
+		);
+}
+</script>
+</head>
+
+<body>
+
+<div class="player_controls">
+
+<div class="pause_resume_title_container">
+<button id="pause_button">Pause</button>
+<button id="resume_button">Resume</button>
+<div id="current_track_name"></div>
+</div>
+
+<div class="sliders">
+
+	<div>
+		<div id="seeker_container" class="slider_container"></div>
+		<div class="slider_text"><span id="current_time"></span> / <span id="duration"></span></div>
+	</div>
+
+	<div>
+		<div id="volume_container" class="slider_container"></div>
+		<div class="slider_text">Volume: <span id="volume_text"></span></div>
+	</div>
+
+</div>
+
+<div id="playback_error"></div>
+
+<audio id="the_audio"></audio>
+<input type="hidden" id="persist_volume"/>
+
+</div>
+
+<ul id="list"></ul>
+
+</body>
+</html>

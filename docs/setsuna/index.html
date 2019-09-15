@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>I am Setsuna</title>
+<style>
+html {
+background: url('setsuna.jpg') no-repeat center center fixed;
+background-size: cover;
+min-height: 100%;
+}
+
+body {
+font: 9pt Arial, sans-serif;
+color: #000000;
+margin-left: 50px;
+padding-top: 1px; /* disable margin-top collapsig with #list margin-top */
+}
+
+
+/* track list */
+
+
+li {
+display: flex; /* allows the inner a to span the entire width */
+margin: 0;
+padding: 0;
+}
+
+.play_link {
+flex: 1;
+color: #000000;
+text-decoration: none;
+}
+
+/* this is added to the .play_link that is currently playing */
+.currently_playing {
+background-color: rgba(255, 255, 255, 0.9);
+box-shadow: 0 0 1.5px 1px #000000;
+}
+
+li.separator {
+justify-content: center;
+font-style: italic;
+}
+
+.separator, .play_link {
+padding: 2px;
+}
+
+
+/* slider */
+
+
+.slider_container {
+cursor: pointer;
+background-color: rgba(255, 255, 255, 0.5);
+box-shadow: 0 0 1.5px 1px #000000;
+margin: 3px;
+height: 20px;
+overflow: hidden;
+}
+
+.slider_thumb {
+background-color: rgba(0, 0, 0, 0.7);
+border-bottom: 2px solid #979797;
+border-right: 2px solid #979797;
+border-top: 2px solid #E3E3E3;
+border-left: 2px solid #E3E3E3;
+width: 16px;
+}
+
+.slider_text {
+margin: 3px;
+}
+
+
+/* player controls */
+
+
+/* the player controls are fixed on the screen, while the track list scrolls */
+.player_controls {
+position: fixed;
+}
+
+/* since the player controls are fixed, we need to leave some space for them */
+#list {
+margin-top: 105px; /* hack -- this is roughly equal to the player controls height */
+}
+
+.player_controls, #list {
+width: 450px;
+box-shadow: 0 0 1.5px 1px #000000;
+padding: 3px;
+margin-bottom: 15px;
+background-color: rgba(255, 255, 255, 0.8);
+}
+
+.pause_resume_title_container {
+height: 45px;
+display: flex;
+}
+
+.pause_resume_title_container > button {
+cursor: pointer;
+border-bottom: 2px solid #979797;
+border-right: 2px solid #979797;
+border-top: 2px solid #E3E3E3;
+border-left: 2px solid #E3E3E3;
+font-size: inherit;
+margin: 3px;
+padding: 3px;
+background-color: rgba(255, 255, 255, 0.7);
+box-shadow: 0 0 1.5px 1px #000000;
+}
+
+.current_track_container {
+display: flex; /* centers the text vertically inside the div */
+align-items: center;
+margin: 3px;
+}
+
+#playback_error {
+color: #b22222;
+}
+
+/* place both sliders next to each other */
+.sliders {
+display: flex;
+}
+
+.sliders > div {
+flex: 1;
+}
+
+</style>
+
+<script src="player.js"></script>
+<script>
+"use strict";
+
+document.addEventListener("DOMContentLoaded", init);
+
+function init()
+{
+	player_init(
+		document.getElementById("list"),
+		document.getElementById("seeker_container"),
+		document.getElementById("volume_container"),
+		document.getElementById("pause_button"),
+		document.getElementById("resume_button"),
+		document.getElementById("the_audio"),
+		document.getElementById("current_track_name"),
+		document.getElementById("current_time"),
+		document.getElementById("duration"),
+		document.getElementById("volume_text"),
+		document.getElementById("persist_volume"),
+		document.getElementById("playback_error")
+		);
+}
+</script>
+</head>
+
+<body>
+
+<div class="player_controls">
+
+<div class="pause_resume_title_container">
+<button id="pause_button">Pause</button>
+<button id="resume_button">Resume</button>
+<div class="current_track_container"><span><span id="current_track_name"></span> <span id="playback_error"></span></span></div>
+</div>
+
+<div class="sliders">
+
+	<div>
+		<div id="seeker_container" class="slider_container"></div>
+		<div class="slider_text"><span id="current_time"></span> / <span id="duration"></span></div>
+	</div>
+
+	<div>
+		<div id="volume_container" class="slider_container"></div>
+		<div class="slider_text">Volume: <span id="volume_text"></span></div>
+	</div>
+
+</div>
+
+<audio id="the_audio"></audio>
+<input type="hidden" id="persist_volume"/>
+</div>
+
+<ul id="list">
+	<li class="separator">Disc 1</li>
+	<li><a class='play_link'>1.01 Beginning of the End.mp3</a></li>
+	<li><a class='play_link'>1.02 Loss.mp3</a></li>
+	<li><a class='play_link'>1.03 Voyage.mp3</a></li>
+	<li><a class='play_link'>1.04 The Scent of the Sea.mp3</a></li>
+	<li><a class='play_link'>1.05 The Winter Breeze.mp3</a></li>
+	<li><a class='play_link'>1.06 Tender Glow.mp3</a></li>
+	<li><a class='play_link'>1.07 Into the Woods.mp3</a></li>
+	<li><a class='play_link'>1.08 No Turning Back.mp3</a></li>
+	<li><a class='play_link'>1.09 Astounding Victory.mp3</a></li>
+	<li><a class='play_link'>1.10 Endless Crusade.mp3</a></li>
+	<li><a class='play_link'>1.11 Deadly Gamble.mp3</a></li>
+	<li><a class='play_link'>1.12 The Savage Coast.mp3</a></li>
+	<li><a class='play_link'>1.13 March of the Brave.mp3</a></li>
+	<li><a class='play_link'>1.14 A Poignant Reminder.mp3</a></li>
+	<li><a class='play_link'>1.15 Path of Redemption.mp3</a></li>
+	<li><a class='play_link'>1.16 Stronghold.mp3</a></li>
+	<li><a class='play_link'>1.17 Silent Snow.mp3</a></li>
+	<li><a class='play_link'>1.18 Relentless Advance.mp3</a></li>
+	<li><a class='play_link'>1.19 A Moment of Respite.mp3</a></li>
+	<li><a class='play_link'>1.20 A Sense of Safety.mp3</a></li>
+	<li><a class='play_link'>1.21 The Royal Host.mp3</a></li>
+	<li><a class='play_link'>1.22 Waves of Hope.mp3</a></li>
+	<li><a class='play_link'>1.23 The Warmth of Life.mp3</a></li>
+	<li><a class='play_link'>1.24 Hidden Intentions.mp3</a></li>
+	<li><a class='play_link'>1.25 A Hidden Force.mp3</a></li>
+	<li><a class='play_link'>1.26 Walking the Walk.mp3</a></li>
+	<li><a class='play_link'>1.27 The Secret Passage.mp3</a></li>
+	<li><a class='play_link'>1.28 A Fantastic Encounter.mp3</a></li>
+	<li><a class='play_link'>1.29 The Enchanted Sanctuary.mp3</a></li>
+	<li><a class='play_link'>1.30 Lighthearted.mp3</a></li>
+	<li><a class='play_link'>1.31 Faith.mp3</a></li>
+	<li><a class='play_link'>1.32 Flowing On.mp3</a></li>
+	<li><a class='play_link'>1.33 Dark Caves.mp3</a></li>
+	<li><a class='play_link'>1.34 March to Rebirth.mp3</a></li>
+	<li><a class='play_link'>1.35 Shrouded Fate.mp3</a></li>
+	<li><a class='play_link'>1.36 Last of the Blood.mp3</a></li>
+	<li><a class='play_link'>1.37 The World of Snow.mp3</a></li>
+	<li class="separator">Disc 2</li>
+	<li><a class='play_link'>2.01 Rare.mp3</a></li>
+	<li><a class='play_link'>2.02 Ruins.mp3</a></li>
+	<li><a class='play_link'>2.03 Deep Reflection.mp3</a></li>
+	<li><a class='play_link'>2.04 Road to Closure.mp3</a></li>
+	<li><a class='play_link'>2.05 Simple Gratitude.mp3</a></li>
+	<li><a class='play_link'>2.06 The Strength of Time.mp3</a></li>
+	<li><a class='play_link'>2.07 The Last Mountain.mp3</a></li>
+	<li><a class='play_link'>2.08 Feeling of Unease.mp3</a></li>
+	<li><a class='play_link'>2.09 Beyond the Snow.mp3</a></li>
+	<li><a class='play_link'>2.10 The King's Valley.mp3</a></li>
+	<li><a class='play_link'>2.11 Echoes of Royalty.mp3</a></li>
+	<li><a class='play_link'>2.12 Towards the Distant Horizon.mp3</a></li>
+	<li><a class='play_link'>2.13 Regal Ruins.mp3</a></li>
+	<li><a class='play_link'>2.14 Dance of Death.mp3</a></li>
+	<li><a class='play_link'>2.15 Winter's End.mp3</a></li>
+	<li><a class='play_link'>2.16 Final Push.mp3</a></li>
+	<li><a class='play_link'>2.17 Out of Time.mp3</a></li>
+	<li><a class='play_link'>2.18 The Lone Reaper.mp3</a></li>
+	<li><a class='play_link'>2.19 Distant Islands.mp3</a></li>
+	<li><a class='play_link'>2.20 Thug Life!.mp3</a></li>
+	<li><a class='play_link'>2.21 The Clouds Above.mp3</a></li>
+	<li><a class='play_link'>2.22 Walking Through the Maze of Time.mp3</a></li>
+	<li><a class='play_link'>2.23 Hidden Danger.mp3</a></li>
+	<li><a class='play_link'>2.24 To The Warmth of the Sun.mp3</a></li>
+	<li><a class='play_link'>2.25 Inside the Beast.mp3</a></li>
+	<li><a class='play_link'>2.26 Unstoppable Force.mp3</a></li>
+	<li><a class='play_link'>2.27 End's Journey.mp3</a></li>
+	<li><a class='play_link'>2.28 Immovable Object.mp3</a></li>
+	<li><a class='play_link'>2.29 Farewell.mp3</a></li>
+	<li><a class='play_link'>2.30 Memories.mp3</a></li>
+	<li><a class='play_link'>2.31 Winter Journey's Tale.mp3</a></li>
+	<li><a class='play_link'>2.32 Staff Roll.mp3</a></li>
+	<li><a class='play_link'>2.33 Winter Dreams.mp3</a></li>
+	<li><a class='play_link'>2.34 Dreamers' Conclave.mp3</a></li>
+</ul>
+
+</body>
+</html>
