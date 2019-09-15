@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>I am Setsuna</title>
+
+<style>
+.slider_container {
+box-shadow: 0 0 0 1px #000000;
+max-width: 20em;
+height: 1.5em;
+}
+
+.slider_thumb {
+background-color: #000000;
+width: 1.5em;
+}
+</style>
+
+<script src="player.js"></script>
+<script>
+"use strict";
+
+document.addEventListener("DOMContentLoaded", init);
+
+function init()
+{
+	player_init(
+		document.getElementById("list"),
+		document.getElementById("seeker_container"),
+		document.getElementById("volume_container"),
+		document.getElementById("pause_button"),
+		document.getElementById("resume_button"),
+		document.getElementById("the_audio"),
+		document.getElementById("current_track_name"),
+		document.getElementById("current_time"),
+		document.getElementById("duration"),
+		document.getElementById("volume_text"),
+		document.getElementById("persist_volume"),
+		document.getElementById("playback_error")
+		);
+}
+</script>
+</head>
+<body>
+
+<div>
+
+	<p>
+		<button id="pause_button">Pause</button>
+		<button id="resume_button">Resume</button>
+	</p>
+
+	<p>Current track: <span id="current_track_name"></span></p>
+
+	<div id="seeker_container" class="slider_container"></div>
+	<p>Time: <span id="current_time"></span> / <span id="duration"></span></p>
+
+	<div id="volume_container" class="slider_container"></div>
+	<p>Volume: <span id="volume_text"></span></p>
+
+	<p id="playback_error"></p>
+
+	<audio id="the_audio"></audio>
+	<input type="hidden" id="persist_volume"/>
+
+</div>
+
+<ul id="list">
+	<li><a class='play_link'>01. Voices of Winter.mp3</a></li>
+	<li><a class='play_link'>02. Eternal Winter.mp3</a></li>
+	<li><a class='play_link'>03. Rounds of the Fates.mp3</a></li>
+	<li><a class='play_link'>04. Redemption and Forgiveness.mp3</a></li>
+	<li><a class='play_link'>05. Little Dancing Light.mp3</a></li>
+	<li><a class='play_link'>06. Of Noble Blood.mp3</a></li>
+	<li><a class='play_link'>07. Dark Anomaly.mp3</a></li>
+	<li><a class='play_link'>08. Frozen Grief.mp3</a></li>
+	<li><a class='play_link'>09. Town by the Sea.mp3</a></li>
+	<li><a class='play_link'>10. Song in the Wind.mp3</a></li>
+	<li><a class='play_link'>11. Old Hearth.mp3</a></li>
+	<li><a class='play_link'>12. Sorrowful Winds.mp3</a></li>
+	<li><a class='play_link'>13. Safe Haven.mp3</a></li>
+	<li><a class='play_link'>14. The Warmth of Hope.mp3</a></li>
+	<li><a class='play_link'>15. What Meets the Eye.mp3</a></li>
+	<li><a class='play_link'>16. The Power of Time.mp3</a></li>
+	<li><a class='play_link'>17. Frozen Highlands.mp3</a></li>
+	<li><a class='play_link'>18. The Forrest of Light.mp3</a></li>
+	<li><a class='play_link'>19. Hidden Motives.mp3</a></li>
+	<li><a class='play_link'>20. The Last Stretch.mp3</a></li>
+	<li><a class='play_link'>21. Once Upon a Time.mp3</a></li>
+	<li><a class='play_link'>22. The Ancient Bloodline.mp3</a></li>
+	<li><a class='play_link'>23. Whisper to the Heart.mp3</a></li>
+	<li><a class='play_link'>24. Like a Boss!.mp3</a></li>
+	<li><a class='play_link'>25. Stories of Old.mp3</a></li>
+	<li><a class='play_link'>26. Beyond the Snow (ft. Kotringo).mp3</a></li>
+	<li><a class='play_link'>27. An End to the Journey.mp3</a></li>
+
+</ul>
+
+</body>
+</html>
