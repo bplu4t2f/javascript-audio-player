@@ -28,7 +28,8 @@ function player_init(
 	duration_container,
 	volume_text_container,
 	persist_volume,
-	playback_error
+	playback_error,
+	use_hash
 	)
 {
 	let tracks = []; // { li, string url }
@@ -85,21 +86,14 @@ function player_init(
 	audio_volumechange();
 	audio_timeupdate();
 	
-	// Will attempt to auto-play a file if a hash exists.
-	// It probably won't work now because most browsers disable auto-play.
-	if (window.location.hash)
+	// Will attempt to load existing file, if a hash exists.
+	if (use_hash)
 	{
-		let decoded_hash = decodeURIComponent(window.location.hash.substring(1));
-		// Find and play requested file immediately
-		for (let i = 0; i < tracks.length; ++i)
-		{
-			let url = tracks[i].url;
-			if (url == decoded_hash)
-			{
-				set_current_track(i);
-				break;
-			}
-		}
+		// Don't autoplay on page-load, that doesn't work in modern browsers anyway
+		// and will cause exceptions.
+		play_hash_track(false);
+		
+		window.addEventListener("hashchange", () => play_hash_track(true));
 	}
 	
 	function prepare_slider(container)
@@ -137,7 +131,10 @@ function player_init(
 			
 			current_track_name_container.textContent = track.url;
 			document.title = track.url + " - " + original_title;
-			window.location.hash = track.url;
+			if (use_hash)
+			{
+				window.location.hash = track.url;
+			}
 			
 			audio.src = track.url;
 			audio.load();
@@ -149,7 +146,10 @@ function player_init(
 			
 			current_track_name_container.textContent = "";
 			document.title = original_title;
-			window.location.hash = "";
+			if (use_hash)
+			{
+				window.location.hash = "";
+			}
 		}
 		
 		for (let t of tracks)
@@ -187,6 +187,38 @@ function player_init(
 		{
 			playback_error.textContent = "" + error;
 			playback_error.classList.add("playback_error_present");
+		}
+	}
+	
+	function play_hash_track(actually_play)
+	{
+		if (!window.location.hash)
+		{
+			return;
+		}
+		
+		let decoded_hash = decodeURIComponent(window.location.hash.substring(1));
+		
+		// Ignore request if we're already playing this track.
+		// This happens regularly because the hashchange event will call this as a result of a new track being played.
+		if (current_track_index !== null && tracks[current_track_index].url == decoded_hash)
+		{
+			return;
+		}
+		
+		// Find and play requested file immediately
+		for (let i = 0; i < tracks.length; ++i)
+		{
+			let url = tracks[i].url;
+			if (url == decoded_hash)
+			{
+				set_current_track(i);
+				if (actually_play)
+				{
+					resume();
+				}
+				break;
+			}
 		}
 	}
 
